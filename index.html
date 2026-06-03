@@ -134,13 +134,13 @@
   .cert-stage{position:relative;width:100%;max-width:490px}
   .cert-bg{display:block;width:100%;height:auto}
 
-  /* the name sits ON the red line, masking the centre so it reads as resting on it */
+  /* name only, no box; nudged slightly higher */
   .ov-name{
     position:absolute;left:0;right:0;text-align:center;padding:0 26px;
-    top:80%;transform:translateY(-50%);
+    top:78%;transform:translateY(-50%);
     font-family:var(--display);font-weight:700;font-size:29px;color:var(--cert-red);white-space:nowrap;
   }
-  .ov-name span{background:var(--cert-paper);padding:0 18px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+  .ov-name span{background:transparent;padding:0}
 
   .again{
     margin:22px auto 30px;align-self:center;background:#fff;border:1px solid var(--cert-red);
