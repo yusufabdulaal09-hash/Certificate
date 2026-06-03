@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وثيقة تقدير — نموذج تجريبي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold-deep:#7c6322;
+    --gold:#b8923f;
+    --gold-light:#d8b65e;
+    --gold-pale:#ecd79b;
+    --gold-hi:#f6ecc8;
+    --maroon:#7c1d2a;
+    --maroon-deep:#5d141f;
+    --maroon-hi:#9a2c3a;
+    --cream:#fbf7ec;
+    --ink:#43360f;
+    --line:rgba(255,248,225,.5);
+    --display:'Amiri', 'Times New Roman', serif;
+    --body:'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    --cert-red:#9c1a2b;
+    --cert-paper:#f4f4f4;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:var(--body);
+    background:#2a2310;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    min-height:100vh;
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---- phone-sized stage (original gold) ---- */
+  .app-screen{
+    position:relative;
+    width:100%;
+    max-width:490px;
+    min-height:100vh;
+    margin:0 auto;
+    overflow:hidden;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgba(246,236,200,.55), transparent 55%),
+      radial-gradient(90% 60% at 85% 30%, rgba(216,182,94,.35), transparent 60%),
+      radial-gradient(120% 90% at 10% 100%, rgba(92,72,28,.55), transparent 55%),
+      linear-gradient(160deg, #c8a24c 0%, #b08833 38%, #8f6c27 70%, #6f5320 100%);
+  }
+  .app-screen::before{
+    content:"";
+    position:absolute;inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    opacity:.7;
+  }
+  .app-screen::after{
+    content:"";
+    position:absolute;inset:0;
+    background:repeating-linear-gradient(115deg, rgba(255,255,255,.04) 0 2px, transparent 2px 9px);
+    pointer-events:none;
+  }
+
+  .view{position:relative;z-index:2;display:none;padding:34px 26px 30px;min-height:100vh;flex-direction:column}
+  .view.active{display:flex}
+
+  /* corner-bracket frame */
+  .frame{position:relative;margin:22px 4px 0;height:74px}
+  .frame .br{position:absolute;width:30px;height:30px}
+  .frame .tl{top:0;right:0;border-top:1.5px solid var(--line);border-right:1.5px solid var(--line)}
+  .frame .tr{top:0;left:0;border-top:1.5px solid var(--line);border-left:1.5px solid var(--line)}
+  .frame .edge{position:absolute;top:0;left:34px;right:34px;border-top:1.5px solid var(--line)}
+
+  /* ===== form ===== */
+  .fields{margin-top:8px;display:flex;flex-direction:column;gap:16px}
+  .field input{
+    width:100%;border:none;border-radius:13px;background:var(--cream);
+    padding:17px 20px;font-family:var(--body);font-size:16px;color:#3a3a3a;text-align:right;
+    box-shadow:0 6px 14px rgba(60,40,8,.22), inset 0 0 0 1px rgba(255,255,255,.6);
+    outline:none;transition:box-shadow .2s, transform .2s;
+  }
+  .field input::placeholder{color:#9a958c}
+  .field input:focus{box-shadow:0 6px 18px rgba(60,40,8,.3), 0 0 0 2px var(--gold-pale)}
+
+  .submit{
+    margin-top:4px;width:100%;border:none;border-radius:11px;padding:16px;
+    font-family:var(--body);font-weight:700;font-size:18px;letter-spacing:.5px;color:#fdf3e0;cursor:pointer;
+    background:linear-gradient(180deg,var(--maroon-hi),var(--maroon) 55%,var(--maroon-deep));
+    box-shadow:0 8px 18px rgba(70,12,22,.4), inset 0 1px 0 rgba(255,255,255,.18);
+    transition:transform .12s, filter .2s;
+  }
+  .submit:hover{filter:brightness(1.06)}
+  .submit:active{transform:translateY(1px)}
+  .err{color:#5d141f;background:rgba(251,247,236,.85);border-radius:8px;font-size:13px;text-align:center;padding:7px;margin-top:2px;display:none}
+  .err.show{display:block}
+
+  .disclaimer{
+    background:rgba(40,28,8,.28);border:1px solid rgba(255,248,225,.25);border-radius:10px;
+    padding:11px 13px;font-size:11.5px;line-height:1.7;color:#fbeec6;text-align:right;
+  }
+  .consent{display:flex;align-items:flex-start;gap:9px;font-size:12px;color:#fbeec6;cursor:pointer;padding:0 2px}
+  .consent input{
+    appearance:none;-webkit-appearance:none;width:18px;height:18px;flex:0 0 18px;margin-top:1px;
+    border:1.5px solid rgba(255,248,225,.7);border-radius:5px;background:rgba(255,255,255,.08);
+    cursor:pointer;position:relative;transition:background .15s;
+  }
+  .consent input:checked{background:var(--maroon);border-color:var(--maroon-hi)}
+  .consent input:checked::after{content:"\2713";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fdf3e0;font-size:12px;font-weight:700}
+
+  /* ceremonial preview (form page) */
+  .ceremony{margin-top:auto;padding-top:26px;text-align:center;position:relative}
+  .ceremony .doc-title{font-family:var(--display);font-size:24px;color:var(--gold-hi);letter-spacing:1px;text-shadow:0 1px 2px rgba(60,30,5,.5);position:relative;display:inline-block}
+  .ceremony .doc-title::before,.ceremony .doc-title::after{content:"|";color:var(--gold-pale);opacity:.8;margin:0 12px;font-weight:700}
+  .ceremony .sub{font-size:12.5px;color:#fbedc8;opacity:.92;margin-top:8px;line-height:1.7}
+  .ceremony .grand{font-family:var(--display);font-weight:700;font-size:21px;color:var(--gold-hi);margin-top:6px;text-shadow:0 1px 2px rgba(60,30,5,.45)}
+  .ceremony .small{font-size:11px;color:#f3e3bd;opacity:.85;margin-top:5px}
+  .brandrow{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px}
+  .brandmark{display:flex;flex-direction:column;align-items:center;line-height:1.1}
+  .brandmark .mk{font-family:var(--display);font-weight:700;font-size:18px;color:#f5e7bf;letter-spacing:1px}
+  .brandmark .mk small{display:block;font-family:var(--body);font-size:8.5px;letter-spacing:.5px;color:#ecd9a6;margin-top:3px}
+  .brandmark .swoosh{display:flex;gap:3px;margin-bottom:3px}
+  .brandmark .swoosh i{width:12px;height:5px;border-radius:6px;display:block;transform:skewX(-18deg)}
+  .globe{position:absolute;right:0;bottom:0;width:52px;height:52px;border-radius:50%;border:1.5px solid rgba(255,248,225,.55);display:flex;align-items:center;justify-content:center;color:#fbeec6;font-size:22px;background:rgba(255,255,255,.06)}
+
+  /* ===== certificate (result) view — image + name on the line ===== */
+  #view-cert{padding:0;background:var(--cert-paper);align-items:center}
+  .cert-stage{position:relative;width:100%;max-width:490px}
+  .cert-bg{display:block;width:100%;height:auto}
+
+  /* the name sits ON the red line, masking the centre so it reads as resting on it */
+  .ov-name{
+    position:absolute;left:0;right:0;text-align:center;padding:0 26px;
+    top:80%;transform:translateY(-50%);
+    font-family:var(--display);font-weight:700;font-size:29px;color:var(--cert-red);white-space:nowrap;
+  }
+  .ov-name span{background:var(--cert-paper);padding:0 18px;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+
+  .again{
+    margin:22px auto 30px;align-self:center;background:#fff;border:1px solid var(--cert-red);
+    color:var(--cert-red);font-family:var(--body);font-size:13px;font-weight:600;
+    padding:9px 22px;border-radius:9px;cursor:pointer;transition:background .2s,color .2s;
+  }
+  .again:hover{background:var(--cert-red);color:#fff}
+
+  /* entrance animation */
+  .reveal{opacity:0;transform:translateY(10px);animation:rise .6s ease forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="app-screen" id="appScreen">
+
+  <!-- ============ FORM VIEW (page 1 — original gold) ============ -->
+  <section class="view active" id="view-form">
+
+    <div class="frame">
+      <span class="br tl"></span><span class="br tr"></span><span class="edge"></span>
+    </div>
+
+    <div class="fields">
+      <div class="field"><input id="firstName" type="text" placeholder="الاسم الأول" autocomplete="off"></div>
+      <div class="field"><input id="lastName" type="text" placeholder="اسم العائلة" autocomplete="off"></div>
+      <div class="field"><input id="phone" type="tel" inputmode="numeric" placeholder="رقم الهاتف" autocomplete="off"></div>
+
+      <div class="disclaimer">
+        يُجمع رقم الهاتف لأغراض التسجيل والتواصل من قِبل <strong>[اسم الجهة المنظِّمة]</strong>،
+        ولا يظهر على الوثيقة. يُرجى استبدال اسم الجهة وإضافة رابط سياسة الخصوصية قبل النشر.
+      </div>
+
+      <label class="consent">
+        <input type="checkbox" id="consent">
+        <span>أوافق على جمع بياناتي واستخدامها لأغراض التسجيل والتواصل.</span>
+      </label>
+
+      <div class="err" id="err">يرجى تعبئة جميع الحقول والموافقة على جمع البيانات</div>
+      <button class="submit" id="sendBtn">إرسال</button>
+    </div>
+
+    <div class="ceremony">
+      <div class="doc-title">وثيقة تقدير</div>
+      <div class="sub">مُقدَّمة باسم الجهة المنظِّمة<br>تقديرًا للمشاركة والحضور المميّز</div>
+      <div class="grand">شهادة مشاركة رسمية</div>
+      <div class="small">نموذج تجريبي — بدون أي ارتباط بجهة حقيقية</div>
+      <div class="brandrow">
+        <div class="brandmark">
+          <div class="swoosh"><i style="background:#3aa0c9"></i><i style="background:#cf3a55"></i><i style="background:#3ab07a"></i></div>
+          <div class="mk">الشعار<small>PLACEHOLDER LOGO</small></div>
+        </div>
+      </div>
+      <div class="globe">🌐</div>
+    </div>
+  </section>
+
+  <!-- ============ CERTIFICATE VIEW (page 2 — image + name) ============ -->
+  <section class="view" id="view-cert">
+    <div class="cert-stage reveal">
+      <img class="cert-bg" src="C:\Users\alihe\Downloads\picture.jpeg">
+      <div class="ov-name"><span id="participantName"></span></div>
+    </div>
+    <button class="again" id="againBtn">إنشاء وثيقة أخرى</button>
+  </section>
+
+</div>
+
+<script>
+  const firstName = document.getElementById('firstName');
+  const lastName  = document.getElementById('lastName');
+  const phone     = document.getElementById('phone');
+  const consent   = document.getElementById('consent');
+  const err       = document.getElementById('err');
+  const viewForm  = document.getElementById('view-form');
+  const viewCert  = document.getElementById('view-cert');
+  const stage     = viewCert.querySelector('.cert-stage');
+
+  function goToCertificate(){
+    const f = firstName.value.trim();
+    const l = lastName.value.trim();
+    const p = phone.value.trim();
+    if(!f || !l || !p || !consent.checked){ err.classList.add('show'); return; }
+    err.classList.remove('show');
+
+    // Phone collected with consent, NOT shown on the document, NOT transmitted by this demo.
+    const registrant = { firstName: f, lastName: l, phone: p };
+    console.log('registrant (demo only, not transmitted):', registrant);
+
+    document.getElementById('participantName').textContent = (f + ' ' + l).trim();
+
+    viewForm.classList.remove('active');
+    viewCert.classList.add('active');
+    stage.classList.remove('reveal'); void stage.offsetWidth; stage.classList.add('reveal');
+    window.scrollTo(0,0);
+  }
+
+  document.getElementById('sendBtn').addEventListener('click', goToCertificate);
+  [firstName,lastName,phone].forEach(inp=>{
+    inp.addEventListener('keydown', e=>{ if(e.key==='Enter') goToCertificate(); });
+    inp.addEventListener('input', ()=> err.classList.remove('show'));
+  });
+  consent.addEventListener('change', ()=> err.classList.remove('show'));
+
+  document.getElementById('againBtn').addEventListener('click', ()=>{
+    firstName.value=''; lastName.value=''; phone.value=''; consent.checked=false;
+    viewCert.classList.remove('active');
+    viewForm.classList.add('active');
+    window.scrollTo(0,0);
+    firstName.focus();
+  });
+</script>
+</body>
+</html>
